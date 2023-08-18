@@ -3,7 +3,10 @@ package net.smoothplugins.smoothusers;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import net.smoothplugins.smoothbase.configuration.Configuration;
+import net.smoothplugins.smoothbase.connection.MongoConnection;
+import net.smoothplugins.smoothbase.connection.RedisConnection;
 import net.smoothplugins.smoothusers.module.ConfigurationModule;
+import net.smoothplugins.smoothusers.module.ConnectionModule;
 import net.smoothplugins.smoothusers.module.SmoothUsersModule;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -16,9 +19,20 @@ public final class SmoothUsers extends JavaPlugin {
         // Plugin startup logic
         Configuration config = new Configuration(this, "config");
 
+        String uri = config.getString("mongo.uri");
+        String databaseName = config.getString("mongo.database");
+        MongoConnection mongoConnection = new MongoConnection(uri, databaseName);
+
+        String redisHost = config.getString("redis.host");
+        int redisPort = config.getInt("redis.port");
+        String redisPassword = config.getString("redis.password");
+        String redisPrefix = config.getString("redis.cluster");
+        RedisConnection redisConnection = new RedisConnection(redisHost, redisPort, redisPassword, redisPrefix);
+
         injector = Guice.createInjector(
                 new SmoothUsersModule(this),
-                new ConfigurationModule(config)
+                new ConfigurationModule(config),
+                new ConnectionModule(mongoConnection, redisConnection)
         );
     }
 
