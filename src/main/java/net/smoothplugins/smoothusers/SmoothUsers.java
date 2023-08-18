@@ -5,6 +5,7 @@ import com.google.inject.Injector;
 import net.smoothplugins.smoothbase.configuration.Configuration;
 import net.smoothplugins.smoothbase.connection.MongoConnection;
 import net.smoothplugins.smoothbase.connection.RedisConnection;
+import net.smoothplugins.smoothusers.loader.MainLoader;
 import net.smoothplugins.smoothusers.module.ConfigurationModule;
 import net.smoothplugins.smoothusers.module.ConnectionModule;
 import net.smoothplugins.smoothusers.module.SmoothUsersModule;
@@ -36,11 +37,14 @@ public final class SmoothUsers extends JavaPlugin {
                 new ConnectionModule(mongoConnection, redisConnection),
                 new StorageModule()
         );
+
+        injector.getInstance(MainLoader.class).load();
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+        injector.getInstance(MainLoader.class).unload();
     }
 
     public static Injector getInjector() {
