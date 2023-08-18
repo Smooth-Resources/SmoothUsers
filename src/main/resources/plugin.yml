@@ -1,0 +1,4 @@
+name: SmoothUsers
+version: '${project.version}'
+main: net.smoothplugins.smoothusers.SmoothUsers
+api-version: 1.16
