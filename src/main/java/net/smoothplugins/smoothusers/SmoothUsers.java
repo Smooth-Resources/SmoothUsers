@@ -6,10 +6,7 @@ import net.smoothplugins.smoothbase.configuration.Configuration;
 import net.smoothplugins.smoothbase.connection.MongoConnection;
 import net.smoothplugins.smoothbase.connection.RedisConnection;
 import net.smoothplugins.smoothusers.loader.MainLoader;
-import net.smoothplugins.smoothusers.module.ConfigurationModule;
-import net.smoothplugins.smoothusers.module.ConnectionModule;
-import net.smoothplugins.smoothusers.module.SmoothUsersModule;
-import net.smoothplugins.smoothusers.module.StorageModule;
+import net.smoothplugins.smoothusers.module.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class SmoothUsers extends JavaPlugin {
@@ -35,7 +32,8 @@ public final class SmoothUsers extends JavaPlugin {
                 new SmoothUsersModule(this),
                 new ConfigurationModule(config),
                 new ConnectionModule(mongoConnection, redisConnection),
-                new StorageModule()
+                new StorageModule(),
+                new UserModule()
         );
 
         injector.getInstance(MainLoader.class).load();
