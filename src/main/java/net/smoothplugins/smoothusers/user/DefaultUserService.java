@@ -138,4 +138,40 @@ public class DefaultUserService implements UserService {
             }
         }
     }
+
+    @Override
+    public boolean cacheContainsByUUID(UUID uuid) {
+        return redisStorage.contains(uuid.toString());
+    }
+
+    @Override
+    public boolean cacheContainsByUsername(String username) {
+        return redisStorage.contains(username.toLowerCase(Locale.ROOT));
+    }
+
+    @Override
+    public void loadToCache(User user) {
+        redisStorage.update(user.getUuid().toString(), serializer.serialize(user));
+        redisStorage.update(user.getLowerCaseUsername(), serializer.serialize(user));
+    }
+
+    @Override
+    public boolean removeTTLFromCacheByUUID(UUID uuid) {
+        return redisStorage.removeTTL(uuid.toString());
+    }
+
+    @Override
+    public boolean removeTTLFromCacheByUsername(String username) {
+        return redisStorage.removeTTL(username.toLowerCase(Locale.ROOT));
+    }
+
+    @Override
+    public boolean setTTLOfCacheByUUID(UUID uuid, int seconds) {
+        return redisStorage.setTTL(uuid.toString(), seconds);
+    }
+
+    @Override
+    public boolean setTTLOfCacheByUsername(String username, int seconds) {
+        return redisStorage.setTTL(username.toLowerCase(Locale.ROOT), seconds);
+    }
 }
