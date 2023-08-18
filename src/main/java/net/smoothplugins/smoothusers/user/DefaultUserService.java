@@ -69,6 +69,12 @@ public class DefaultUserService implements UserService {
         if (user != null) return Optional.of(user);
 
         user = serializer.deserialize(mongoStorage.get(uuid.toString(), "_id"), User.class);
+        if (user != null) {
+            loadToCache(user);
+            setTTLOfCacheByUUID(uuid, config.getInt("offline-cache-time"));
+            setTTLOfCacheByUsername(user.getLowerCaseUsername(), config.getInt("offline-cache-time"));
+        }
+
         return Optional.ofNullable(user);
     }
 
@@ -78,6 +84,12 @@ public class DefaultUserService implements UserService {
         if (user != null) return Optional.of(user);
 
         user = serializer.deserialize(mongoStorage.get(username.toLowerCase(Locale.ROOT), "lowerCaseUsername"), User.class);
+        if (user != null) {
+            loadToCache(user);
+            setTTLOfCacheByUUID(user.getUuid(), config.getInt("offline-cache-time"));
+            setTTLOfCacheByUsername(user.getLowerCaseUsername(), config.getInt("offline-cache-time"));
+        }
+
         return Optional.ofNullable(user);
     }
 
