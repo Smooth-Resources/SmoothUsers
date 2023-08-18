@@ -5,8 +5,11 @@ import com.google.inject.Injector;
 import net.smoothplugins.smoothbase.configuration.Configuration;
 import net.smoothplugins.smoothbase.connection.MongoConnection;
 import net.smoothplugins.smoothbase.connection.RedisConnection;
+import net.smoothplugins.smoothusers.api.DefaultSmoothUsersAPI;
 import net.smoothplugins.smoothusers.loader.MainLoader;
 import net.smoothplugins.smoothusers.module.*;
+import net.smoothplugins.smoothusersapi.SmoothUsersAPI;
+import net.smoothplugins.smoothusersapi.user.UserService;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class SmoothUsers extends JavaPlugin {
@@ -38,6 +41,13 @@ public final class SmoothUsers extends JavaPlugin {
         );
 
         injector.getInstance(MainLoader.class).load();
+
+        getServer().getServicesManager().register(
+                SmoothUsersAPI.class,
+                injector.getInstance(DefaultSmoothUsersAPI.class),
+                this,
+                org.bukkit.plugin.ServicePriority.Normal
+        );
     }
 
     @Override
