@@ -6,7 +6,7 @@ If you are searching how to use the API -> [SmoothUsersAPI](https://github.com/S
 Example of a use case:
 Consider a cross-server survival scenario with two servers: Server A and Server B.
 In this situation, Player A is located on Server A, while Player B is on Server B.
-Suppose Player B wishes to invite Player A to their clan using the command "/clan invite <nickname>."
+Suppose Player B wishes to invite Player A to their clan using the command "/clan invite username".
 However, there's a challenge because Player A has never previously joined Server B.
 As a result, utilizing the "Bukkit.getPlayer(username)" function is not feasible.
 
