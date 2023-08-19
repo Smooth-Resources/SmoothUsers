@@ -9,7 +9,6 @@ import net.smoothplugins.smoothusers.api.DefaultSmoothUsersAPI;
 import net.smoothplugins.smoothusers.loader.MainLoader;
 import net.smoothplugins.smoothusers.module.*;
 import net.smoothplugins.smoothusersapi.SmoothUsersAPI;
-import net.smoothplugins.smoothusersapi.user.UserService;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class SmoothUsers extends JavaPlugin {
