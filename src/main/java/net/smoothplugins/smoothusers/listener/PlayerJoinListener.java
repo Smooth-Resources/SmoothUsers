@@ -45,7 +45,7 @@ public class PlayerJoinListener implements Listener {
 
             if (userService.cacheContainsByUUID(user.getUuid())) {
                 Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, () -> {
-                    if (!userService.removeTTLFromCacheByUUID(user.getUuid()) || !userService.removeTTLFromCacheByUsername(user.getLowerCaseUsername())) {
+                    if (!userService.removeTTLFromCacheByUUID(user.getUuid()) | !userService.removeTTLFromCacheByUsername(user.getLowerCaseUsername())) {
                         userService.loadToCache(user);
                     }
                 }, 20L * 5);

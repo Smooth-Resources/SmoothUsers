@@ -6,7 +6,7 @@
 
     <groupId>net.smoothplugins</groupId>
     <artifactId>SmoothUsers</artifactId>
-    <version>v1.0.1</version>
+    <version>v1.0.2</version>
     <packaging>jar</packaging>
 
     <name>SmoothUsers</name>
@@ -57,10 +57,6 @@
             <id>papermc-repo</id>
             <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
     </repositories>
 
     <dependencies>
@@ -71,12 +67,12 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.Smooth-Plugins</groupId>
+            <groupId>net.smoothplugins</groupId>
             <artifactId>SmoothUsersAPI</artifactId>
             <version>v1.0.1</version>
         </dependency>
         <dependency>
-            <groupId>com.github.Smooth-Plugins</groupId>
+            <groupId>net.smoothplugins</groupId>
             <artifactId>SmoothBase</artifactId>
             <version>v1.0.1</version>
         </dependency>

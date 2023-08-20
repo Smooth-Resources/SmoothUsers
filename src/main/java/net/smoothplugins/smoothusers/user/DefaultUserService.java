@@ -35,7 +35,7 @@ public class DefaultUserService implements UserService {
         for (Destination destination : destinations) {
             switch (destination) {
                 case STORAGE -> {
-                    mongoStorage.update(user.getUuid().toString(), "_id", serializer.serialize(user));
+                    mongoStorage.update("_id", user.getUuid().toString(), serializer.serialize(user));
                 }
 
                 case CACHE -> {
@@ -55,12 +55,12 @@ public class DefaultUserService implements UserService {
 
     @Override
     public boolean containsByUUID(UUID uuid) {
-        return redisStorage.contains(uuid.toString()) || mongoStorage.contains(uuid.toString(), "_id");
+        return redisStorage.contains(uuid.toString()) || mongoStorage.contains("_id", uuid.toString());
     }
 
     @Override
     public boolean containsByUsername(String username) {
-        return redisStorage.contains(username.toLowerCase()) || mongoStorage.contains(username.toLowerCase(), "lowerCaseUsername");
+        return redisStorage.contains(username.toLowerCase()) || mongoStorage.contains("lowerCaseUsername", username.toLowerCase(Locale.ROOT));
     }
 
     @Override
@@ -68,7 +68,7 @@ public class DefaultUserService implements UserService {
         User user = serializer.deserialize(redisStorage.get(uuid.toString()), User.class);
         if (user != null) return Optional.of(user);
 
-        user = serializer.deserialize(mongoStorage.get(uuid.toString(), "_id"), User.class);
+        user = serializer.deserialize(mongoStorage.get("_id", uuid.toString()), User.class);
         if (user != null) {
             loadToCache(user);
             setTTLOfCacheByUUID(uuid, config.getInt("offline-cache-time"));
@@ -83,7 +83,7 @@ public class DefaultUserService implements UserService {
         User user = serializer.deserialize(redisStorage.get(username.toLowerCase(Locale.ROOT)), User.class);
         if (user != null) return Optional.of(user);
 
-        user = serializer.deserialize(mongoStorage.get(username.toLowerCase(Locale.ROOT), "lowerCaseUsername"), User.class);
+        user = serializer.deserialize(mongoStorage.get("lowerCaseUsername", username.toLowerCase(Locale.ROOT)), User.class);
         if (user != null) {
             loadToCache(user);
             setTTLOfCacheByUUID(user.getUuid(), config.getInt("offline-cache-time"));
@@ -98,7 +98,7 @@ public class DefaultUserService implements UserService {
         for (Destination destination : destinations) {
             switch (destination) {
                 case STORAGE -> {
-                    mongoStorage.delete(uuid.toString(), "_id");
+                    mongoStorage.delete("_id", uuid.toString());
                 }
 
                 case CACHE -> {
@@ -127,7 +127,7 @@ public class DefaultUserService implements UserService {
         for (Destination destination : destinations) {
             switch (destination) {
                 case STORAGE -> {
-                    mongoStorage.delete(username.toLowerCase(Locale.ROOT), "lowerCaseUsername");
+                    mongoStorage.delete("lowerCaseUsername", username.toLowerCase(Locale.ROOT));
                 }
 
                 case CACHE -> {
