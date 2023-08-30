@@ -11,13 +11,11 @@ Consider a cross-server survival scenario with two servers: Server A and Server 
 In this situation, obtaining the UUID of Player A becomes necessary. Unfortunately, you only have Player A's nickname, and there might be a discrepancy in the letter casing. This is where the SmoothUsers plugin becomes useful – it allows you to overcome this issue and obtain the UUID of Player A.
 
 ## 📋 Links
-
 - [Discord](https://discord.gg/mNH33gF4Kw)
 - [Wiki](https://users.smoothplugins.net/)
 - [API](https://github.com/Smooth-Plugins/SmoothUsersAPI)
 
 ## 👪 Authors
-
 [Alex](https://github.com/alexcastro1919)
 
 
