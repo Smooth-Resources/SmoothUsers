@@ -6,14 +6,3 @@ redis:
 mongo:
   uri: "mongodb://localhost:27017"
   database: "SmoothUsers"
-
-# If the user is offline but his data
-# is requested, the data will be cached
-# for the specified time in seconds.
-#
-# If the user is online, the data will
-# always be in the cache.
-#
-# If the data is updated while in the
-# cache, the cache and the storage will be updated.
-offline-cache-time: 300

@@ -39,6 +39,8 @@ public class PlayerJoinListener implements Listener {
                     userService.update(unknownUser, Destination.STORAGE, Destination.CACHE_IF_PRESENT);
                 }
 
+                userService.deleteByUUID(user.getUuid(), Destination.CACHE_IF_PRESENT);
+                userService.deleteByUsername(user.getUsername(), Destination.CACHE_IF_PRESENT);
                 user.updateUsername(event.getPlayer().getName());
                 userService.update(user, Destination.STORAGE, Destination.CACHE_IF_PRESENT);
             }
