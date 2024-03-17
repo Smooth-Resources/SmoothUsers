@@ -6,7 +6,7 @@
 
     <groupId>net.smoothplugins</groupId>
     <artifactId>SmoothUsers</artifactId>
-    <version>v1.0.3</version>
+    <version>v1.0.5</version>
     <packaging>jar</packaging>
 
     <name>SmoothUsers</name>
@@ -39,10 +39,6 @@
                         </goals>
                         <configuration>
                             <relocations>
-                                <relocation>
-                                    <pattern>net.smoothplugins.smoothusersapi</pattern>
-                                    <shadedPattern>net.smoothplugins.smoothusers.libs.net.smoothplugins</shadedPattern>
-                                </relocation>
                                 <relocation>
                                     <pattern>net.smoothplugins.smoothbase</pattern>
                                     <shadedPattern>net.smoothplugins.smoothusers.libs.net.smoothplugins</shadedPattern>
