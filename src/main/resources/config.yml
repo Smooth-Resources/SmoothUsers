@@ -6,3 +6,5 @@ redis:
 mongo:
   uri: "mongodb://localhost:27017"
   database: "SmoothUsers"
+
+update-get-all-every: 60

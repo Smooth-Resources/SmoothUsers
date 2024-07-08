@@ -10,6 +10,8 @@ import net.smoothplugins.smoothusersapi.service.Destination;
 import net.smoothplugins.smoothusersapi.user.User;
 import net.smoothplugins.smoothusersapi.user.UserService;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.UUID;
@@ -24,6 +26,9 @@ public class DefaultUserService implements UserService {
     private Configuration config;
     @Inject
     private Serializer serializer;
+
+    private List<User> usersInCache;
+    private LocalDateTime lastCacheUpdate;
 
     @Override
     public void create(User user) {
@@ -173,5 +178,20 @@ public class DefaultUserService implements UserService {
     @Override
     public boolean setTTLOfCacheByUsername(String username, int seconds) {
         return redisStorage.setTTL(username.toLowerCase(Locale.ROOT), seconds);
+    }
+
+    @Override
+    public List<User> getAllFromCache(boolean forceUpdate) {
+        if (forceUpdate) {
+            usersInCache = redisStorage.getAllValues().stream().map(userJSON -> serializer.deserialize(userJSON, User.class)).toList();
+            lastCacheUpdate = LocalDateTime.now();
+            return usersInCache;
+        }
+
+        if (usersInCache == null || lastCacheUpdate.plusSeconds(config.getInt("update-get-all-every")).isBefore(LocalDateTime.now())) {
+            return getAllFromCache(true);
+        }
+
+        return usersInCache;
     }
 }
