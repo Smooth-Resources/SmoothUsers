@@ -8,6 +8,6 @@ public class UserModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(UserService.class).to(DefaultUserService.class);
+        bind(UserService.class).to(DefaultUserService.class).asEagerSingleton();
     }
 }
