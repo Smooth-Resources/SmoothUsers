@@ -16,7 +16,7 @@ public final class SmoothUsers extends JavaPlugin {
     private static Injector injector;
 
     @Override
-    public void onEnable() {
+    public void onLoad() {
         // Plugin startup logic
         Configuration config = new Configuration(this, "config");
 
@@ -39,14 +39,17 @@ public final class SmoothUsers extends JavaPlugin {
                 new SerializerModule()
         );
 
-        injector.getInstance(MainLoader.class).load();
-
         getServer().getServicesManager().register(
                 SmoothUsersAPI.class,
                 injector.getInstance(DefaultSmoothUsersAPI.class),
                 this,
                 org.bukkit.plugin.ServicePriority.Normal
         );
+    }
+
+    @Override
+    public void onEnable() {
+        injector.getInstance(MainLoader.class).load();
     }
 
     @Override
