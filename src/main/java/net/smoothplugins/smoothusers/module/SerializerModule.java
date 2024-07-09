@@ -1,7 +1,7 @@
 package net.smoothplugins.smoothusers.module;
 
 import com.google.inject.AbstractModule;
-import net.smoothplugins.common.serializer.Serializer;
+import net.smoothplugins.smoothbase.common.serializer.Serializer;
 
 public class SerializerModule extends AbstractModule {
 

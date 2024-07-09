@@ -2,11 +2,11 @@ package net.smoothplugins.smoothusers;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import net.smoothplugins.common.connection.RedisConnection;
-import net.smoothplugins.common.database.nosql.MongoDBDatabase;
-import net.smoothplugins.common.database.nosql.RedisDatabase;
-import net.smoothplugins.common.file.YAMLFile;
-import net.smoothplugins.paper.file.PaperYAMLFile;
+import net.smoothplugins.smoothbase.common.connection.RedisConnection;
+import net.smoothplugins.smoothbase.common.database.nosql.MongoDBDatabase;
+import net.smoothplugins.smoothbase.common.database.nosql.RedisDatabase;
+import net.smoothplugins.smoothbase.common.file.YAMLFile;
+import net.smoothplugins.smoothbase.paper.file.PaperYAMLFile;
 import net.smoothplugins.smoothusers.api.DefaultSmoothUsersAPI;
 import net.smoothplugins.smoothusers.loader.MainLoader;
 import net.smoothplugins.smoothusers.module.*;
@@ -21,6 +21,7 @@ public final class SmoothUsers extends JavaPlugin {
     public void onLoad() {
         // Plugin startup logic
         YAMLFile config = new PaperYAMLFile(this, "config");
+        System.out.println("Test: " + config.getClass());
 
         String redisHost = config.getString("redis", "host");
         int redisPort = config.getInt("redis", "port");
@@ -44,6 +45,8 @@ public final class SmoothUsers extends JavaPlugin {
                 new UserModule(),
                 new SerializerModule()
         );
+
+        System.out.println("Test2: " + injector.getClass());
 
         getServer().getServicesManager().register(
                 SmoothUsersAPI.class,

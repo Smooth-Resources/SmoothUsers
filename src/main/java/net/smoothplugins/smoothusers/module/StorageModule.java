@@ -2,8 +2,8 @@ package net.smoothplugins.smoothusers.module;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
-import net.smoothplugins.common.database.nosql.MongoDBDatabase;
-import net.smoothplugins.common.database.nosql.RedisDatabase;
+import net.smoothplugins.smoothbase.common.database.nosql.MongoDBDatabase;
+import net.smoothplugins.smoothbase.common.database.nosql.RedisDatabase;
 
 public class StorageModule extends AbstractModule {
 

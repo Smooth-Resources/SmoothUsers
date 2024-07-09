@@ -2,7 +2,7 @@ package net.smoothplugins.smoothusers.module;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
-import net.smoothplugins.common.file.YAMLFile;
+import net.smoothplugins.smoothbase.common.file.YAMLFile;
 
 public class ConfigurationModule extends AbstractModule {
 

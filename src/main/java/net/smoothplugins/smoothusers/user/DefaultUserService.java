@@ -2,10 +2,10 @@ package net.smoothplugins.smoothusers.user;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import net.smoothplugins.common.database.nosql.MongoDBDatabase;
-import net.smoothplugins.common.database.nosql.RedisDatabase;
-import net.smoothplugins.common.file.YAMLFile;
-import net.smoothplugins.common.serializer.Serializer;
+import net.smoothplugins.smoothbase.common.database.nosql.MongoDBDatabase;
+import net.smoothplugins.smoothbase.common.database.nosql.RedisDatabase;
+import net.smoothplugins.smoothbase.common.file.YAMLFile;
+import net.smoothplugins.smoothbase.common.serializer.Serializer;
 import net.smoothplugins.smoothusersapi.service.Destination;
 import net.smoothplugins.smoothusersapi.user.User;
 import net.smoothplugins.smoothusersapi.user.UserService;
