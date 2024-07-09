@@ -1,13 +1,16 @@
 package net.smoothplugins.smoothusers.module;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Provides;
-import net.smoothplugins.smoothbase.serializer.Serializer;
+import net.smoothplugins.common.serializer.Serializer;
 
 public class SerializerModule extends AbstractModule {
 
-    @Provides
-    public Serializer getSerializer() {
-        return new Serializer(null);
+    @Override
+    protected void configure() {
+        Serializer serializer = new Serializer.Builder()
+                .registerDefaultAdapters()
+                .build();
+
+        bind(Serializer.class).toInstance(serializer);
     }
 }
