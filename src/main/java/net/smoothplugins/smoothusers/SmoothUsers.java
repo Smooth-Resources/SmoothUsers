@@ -21,7 +21,6 @@ public final class SmoothUsers extends JavaPlugin {
     public void onLoad() {
         // Plugin startup logic
         YAMLFile config = new PaperYAMLFile(this, "config");
-        System.out.println("Test: " + config.getClass());
 
         String redisHost = config.getString("redis", "host");
         int redisPort = config.getInt("redis", "port");
@@ -45,9 +44,7 @@ public final class SmoothUsers extends JavaPlugin {
                 new UserModule(),
                 new SerializerModule()
         );
-
-        System.out.println("Test2: " + injector.getClass());
-
+        
         getServer().getServicesManager().register(
                 SmoothUsersAPI.class,
                 injector.getInstance(DefaultSmoothUsersAPI.class),
