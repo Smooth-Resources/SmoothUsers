@@ -2,10 +2,10 @@ package net.smoothplugins.smoothusers.user;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import net.smoothplugins.smoothbase.configuration.Configuration;
-import net.smoothplugins.smoothbase.serializer.Serializer;
-import net.smoothplugins.smoothbase.storage.MongoStorage;
-import net.smoothplugins.smoothbase.storage.RedisStorage;
+import net.smoothplugins.common.database.nosql.MongoDBDatabase;
+import net.smoothplugins.common.database.nosql.RedisDatabase;
+import net.smoothplugins.common.file.YAMLFile;
+import net.smoothplugins.common.serializer.Serializer;
 import net.smoothplugins.smoothusersapi.service.Destination;
 import net.smoothplugins.smoothusersapi.user.User;
 import net.smoothplugins.smoothusersapi.user.UserService;
@@ -19,11 +19,11 @@ import java.util.UUID;
 public class DefaultUserService implements UserService {
 
     @Inject @Named("user")
-    private MongoStorage mongoStorage;
+    private MongoDBDatabase storage;
     @Inject @Named("user")
-    private RedisStorage redisStorage;
+    private RedisDatabase cache;
     @Inject @Named("config")
-    private Configuration config;
+    private YAMLFile config;
     @Inject
     private Serializer serializer;
 
@@ -32,7 +32,7 @@ public class DefaultUserService implements UserService {
 
     @Override
     public void create(User user) {
-        mongoStorage.create(serializer.serialize(user));
+        storage.insert(user.getUuid().toString(), serializer.serialize(user));
     }
 
     @Override
@@ -40,18 +40,18 @@ public class DefaultUserService implements UserService {
         for (Destination destination : destinations) {
             switch (destination) {
                 case STORAGE -> {
-                    mongoStorage.update("_id", user.getUuid().toString(), serializer.serialize(user));
+                    storage.update(user.getUuid().toString(), serializer.serialize(user));
                 }
 
                 case CACHE -> {
-                    redisStorage.update(user.getUuid().toString(), serializer.serialize(user));
-                    redisStorage.update(user.getLowerCaseUsername(), serializer.serialize(user));
+                    cache.update(user.getUuid().toString(), serializer.serialize(user));
+                    cache.update(user.getLowerCaseUsername(), serializer.serialize(user));
                 }
 
                 case CACHE_IF_PRESENT -> {
-                    if (redisStorage.contains(user.getUuid().toString())) {
-                        redisStorage.update(user.getUuid().toString(), serializer.serialize(user));
-                        redisStorage.update(user.getLowerCaseUsername(), serializer.serialize(user));
+                    if (cache.exists(user.getUuid().toString())) {
+                        cache.update(user.getUuid().toString(), serializer.serialize(user));
+                        cache.update(user.getLowerCaseUsername(), serializer.serialize(user));
                     }
                 }
             }
@@ -60,29 +60,29 @@ public class DefaultUserService implements UserService {
 
     @Override
     public boolean containsByUUID(UUID uuid) {
-        return redisStorage.contains(uuid.toString()) || mongoStorage.contains("_id", uuid.toString());
+        return cache.exists(uuid.toString()) || storage.exists(uuid.toString());
     }
 
     @Override
     public boolean containsByUsername(String username) {
-        return redisStorage.contains(username.toLowerCase()) || mongoStorage.contains("lowerCaseUsername", username.toLowerCase(Locale.ROOT));
+        return cache.exists(username.toLowerCase()) || storage.exists("lowerCaseUsername", username.toLowerCase());
     }
 
     @Override
     public Optional<User> getUserByUUID(UUID uuid) {
-        User user = serializer.deserialize(redisStorage.get(uuid.toString()), User.class);
+        User user = serializer.deserialize(cache.get(uuid.toString()), User.class);
         if (user != null) return Optional.of(user);
 
-        user = serializer.deserialize(mongoStorage.get("_id", uuid.toString()), User.class);
+        user = serializer.deserialize(storage.get(uuid.toString()), User.class);
         return Optional.ofNullable(user);
     }
 
     @Override
     public Optional<User> getUserByUsername(String username) {
-        User user = serializer.deserialize(redisStorage.get(username.toLowerCase(Locale.ROOT)), User.class);
+        User user = serializer.deserialize(cache.get(username.toLowerCase(Locale.ROOT)), User.class);
         if (user != null) return Optional.of(user);
 
-        user = serializer.deserialize(mongoStorage.get("lowerCaseUsername", username.toLowerCase(Locale.ROOT)), User.class);
+        user = serializer.deserialize(storage.get("lowerCaseUsername", username.toLowerCase(Locale.ROOT)), User.class);
         return Optional.ofNullable(user);
     }
 
@@ -91,24 +91,24 @@ public class DefaultUserService implements UserService {
         for (Destination destination : destinations) {
             switch (destination) {
                 case STORAGE -> {
-                    mongoStorage.delete("_id", uuid.toString());
+                    storage.delete(uuid.toString());
                 }
 
                 case CACHE -> {
                     User user = getUserByUUID(uuid).orElse(null);
                     if (user == null) continue;
 
-                    redisStorage.delete(uuid.toString());
-                    redisStorage.delete(user.getLowerCaseUsername());
+                    cache.delete(uuid.toString());
+                    cache.delete(user.getLowerCaseUsername());
                 }
 
                 case CACHE_IF_PRESENT -> {
-                    if (redisStorage.contains(uuid.toString())) {
+                    if (cache.exists(uuid.toString())) {
                         User user = getUserByUUID(uuid).orElse(null);
                         if (user == null) continue;
 
-                        redisStorage.delete(uuid.toString());
-                        redisStorage.delete(user.getLowerCaseUsername());
+                        cache.delete(uuid.toString());
+                        cache.delete(user.getLowerCaseUsername());
                     }
                 }
             }
@@ -120,24 +120,24 @@ public class DefaultUserService implements UserService {
         for (Destination destination : destinations) {
             switch (destination) {
                 case STORAGE -> {
-                    mongoStorage.delete("lowerCaseUsername", username.toLowerCase(Locale.ROOT));
+                    storage.delete("lowerCaseUsername", username.toLowerCase(Locale.ROOT));
                 }
 
                 case CACHE -> {
                     User user = getUserByUsername(username).orElse(null);
                     if (user == null) continue;
 
-                    redisStorage.delete(user.getUuid().toString());
-                    redisStorage.delete(user.getLowerCaseUsername());
+                    cache.delete(user.getUuid().toString());
+                    cache.delete(user.getLowerCaseUsername());
                 }
 
                 case CACHE_IF_PRESENT -> {
-                    if (redisStorage.contains(username.toLowerCase(Locale.ROOT))) {
+                    if (cache.exists(username.toLowerCase(Locale.ROOT))) {
                         User user = getUserByUsername(username).orElse(null);
                         if (user == null) continue;
 
-                        redisStorage.delete(user.getUuid().toString());
-                        redisStorage.delete(user.getLowerCaseUsername());
+                        cache.delete(user.getUuid().toString());
+                        cache.delete(user.getLowerCaseUsername());
                     }
                 }
             }
@@ -146,44 +146,44 @@ public class DefaultUserService implements UserService {
 
     @Override
     public boolean cacheContainsByUUID(UUID uuid) {
-        return redisStorage.contains(uuid.toString());
+        return cache.exists(uuid.toString());
     }
 
     @Override
     public boolean cacheContainsByUsername(String username) {
-        return redisStorage.contains(username.toLowerCase(Locale.ROOT));
+        return cache.exists(username.toLowerCase(Locale.ROOT));
     }
 
     @Override
     public void loadToCache(User user) {
-        redisStorage.update(user.getUuid().toString(), serializer.serialize(user));
-        redisStorage.update(user.getLowerCaseUsername(), serializer.serialize(user));
+        cache.update(user.getUuid().toString(), serializer.serialize(user));
+        cache.update(user.getLowerCaseUsername(), serializer.serialize(user));
     }
 
     @Override
     public boolean removeTTLFromCacheByUUID(UUID uuid) {
-        return redisStorage.removeTTL(uuid.toString());
+        return cache.removeTTL(uuid.toString());
     }
 
     @Override
     public boolean removeTTLFromCacheByUsername(String username) {
-        return redisStorage.removeTTL(username.toLowerCase(Locale.ROOT));
+        return cache.removeTTL(username.toLowerCase(Locale.ROOT));
     }
 
     @Override
     public boolean setTTLOfCacheByUUID(UUID uuid, int seconds) {
-        return redisStorage.setTTL(uuid.toString(), seconds);
+        return cache.setTTL(uuid.toString(), seconds);
     }
 
     @Override
     public boolean setTTLOfCacheByUsername(String username, int seconds) {
-        return redisStorage.setTTL(username.toLowerCase(Locale.ROOT), seconds);
+        return cache.setTTL(username.toLowerCase(Locale.ROOT), seconds);
     }
 
     @Override
     public List<User> getAllFromCache(boolean forceUpdate) {
         if (forceUpdate) {
-            usersInCache = redisStorage.getAllValues().stream().map(userJSON -> serializer.deserialize(userJSON, User.class)).toList();
+            usersInCache = cache.getValues("").stream().map(userJSON -> serializer.deserialize(userJSON, User.class)).toList();
             lastCacheUpdate = LocalDateTime.now();
             return usersInCache;
         }

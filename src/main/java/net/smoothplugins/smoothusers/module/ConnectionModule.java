@@ -1,22 +1,18 @@
 package net.smoothplugins.smoothusers.module;
 
 import com.google.inject.AbstractModule;
-import net.smoothplugins.smoothbase.connection.MongoConnection;
-import net.smoothplugins.smoothbase.connection.RedisConnection;
+import net.smoothplugins.common.connection.RedisConnection;
 
 public class ConnectionModule extends AbstractModule {
 
-    private final MongoConnection mongoConnection;
     private final RedisConnection redisConnection;
 
-    public ConnectionModule(MongoConnection mongoConnection, RedisConnection redisConnection) {
-        this.mongoConnection = mongoConnection;
+    public ConnectionModule(RedisConnection redisConnection) {
         this.redisConnection = redisConnection;
     }
 
     @Override
     protected void configure() {
-        bind(MongoConnection.class).toInstance(mongoConnection);
         bind(RedisConnection.class).toInstance(redisConnection);
     }
 }

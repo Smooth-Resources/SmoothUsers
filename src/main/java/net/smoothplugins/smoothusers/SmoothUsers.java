@@ -2,9 +2,11 @@ package net.smoothplugins.smoothusers;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import net.smoothplugins.smoothbase.configuration.Configuration;
-import net.smoothplugins.smoothbase.connection.MongoConnection;
-import net.smoothplugins.smoothbase.connection.RedisConnection;
+import net.smoothplugins.common.connection.RedisConnection;
+import net.smoothplugins.common.database.nosql.MongoDBDatabase;
+import net.smoothplugins.common.database.nosql.RedisDatabase;
+import net.smoothplugins.common.file.YAMLFile;
+import net.smoothplugins.paper.file.PaperYAMLFile;
 import net.smoothplugins.smoothusers.api.DefaultSmoothUsersAPI;
 import net.smoothplugins.smoothusers.loader.MainLoader;
 import net.smoothplugins.smoothusers.module.*;
@@ -18,23 +20,27 @@ public final class SmoothUsers extends JavaPlugin {
     @Override
     public void onLoad() {
         // Plugin startup logic
-        Configuration config = new Configuration(this, "config");
+        YAMLFile config = new PaperYAMLFile(this, "config");
 
-        String uri = config.getString("mongo.uri");
-        String databaseName = config.getString("mongo.database");
-        MongoConnection mongoConnection = new MongoConnection(uri, databaseName);
+        String redisHost = config.getString("redis", "host");
+        int redisPort = config.getInt("redis", "port");
+        String redisPassword = config.getString("redis", "password");
+        RedisConnection redisConnection = new RedisConnection(redisHost, redisPassword, redisPort, getLogger());
+        redisConnection.connect();
 
-        String redisHost = config.getString("redis.host");
-        int redisPort = config.getInt("redis.port");
-        String redisPassword = config.getString("redis.password");
-        String redisPrefix = config.getString("redis.cluster");
-        RedisConnection redisConnection = new RedisConnection(redisHost, redisPort, redisPassword, redisPrefix);
+        String uri = config.getString("mongo", "uri");
+        String databaseName = config.getString("mongo", "database");
+        MongoDBDatabase mongoDatabase = new MongoDBDatabase(uri, databaseName, "users");
+        mongoDatabase.connect();
+
+        String redisCluster = config.getString("redis", "cluster");
+        RedisDatabase redisDatabase = new RedisDatabase(redisConnection, redisCluster + ":users:");
 
         injector = Guice.createInjector(
                 new SmoothUsersModule(this),
                 new ConfigurationModule(config),
-                new ConnectionModule(mongoConnection, redisConnection),
-                new StorageModule(),
+                new ConnectionModule(redisConnection),
+                new StorageModule(mongoDatabase, redisDatabase),
                 new UserModule(),
                 new SerializerModule()
         );
