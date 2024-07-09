@@ -41,7 +41,7 @@
                             <relocations>
                                 <relocation>
                                     <pattern>net.smoothplugins.smoothbase</pattern>
-                                    <shadedPattern>net.smoothplugins.smoothusers.libs.net.smoothplugins</shadedPattern>
+                                    <shadedPattern>net.smoothplugins.smoothusers.libs.net.smoothplugins.smoothbase</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>com.google.inject</pattern>
@@ -52,12 +52,20 @@
                                     <shadedPattern>net.smoothplugins.smoothusers.libs.org.mongodb</shadedPattern>
                                 </relocation>
                                 <relocation>
+                                    <pattern>com.mongodb</pattern>
+                                    <shadedPattern>net.smoothplugins.smoothusers.libs.com.mongodb</shadedPattern>
+                                </relocation>
+                                <relocation>
                                     <pattern>org.bson</pattern>
-                                    <shadedPattern>net.smoothplugins.smoothsync.libs.org.bson</shadedPattern>
+                                    <shadedPattern>net.smoothplugins.smoothusers.libs.org.bson</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>redis.clients</pattern>
                                     <shadedPattern>net.smoothplugins.smoothusers.libs.redis.clients</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.spongepowered.configurate</pattern>
+                                    <shadedPattern>net.smoothplugins.smoothusers.libs.org.spongepowered.configurate</shadedPattern>
                                 </relocation>
                             </relocations>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
