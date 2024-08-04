@@ -34,7 +34,7 @@ public final class SmoothUsers extends JavaPlugin {
         mongoDatabase.connect();
 
         String redisCluster = config.getString("redis", "cluster");
-        RedisDatabase redisDatabase = new RedisDatabase(redisConnection, redisCluster + ":users:");
+        RedisDatabase redisDatabase = new RedisDatabase(redisConnection, redisCluster + ":user:");
 
         injector = Guice.createInjector(
                 new SmoothUsersModule(this),
@@ -44,7 +44,7 @@ public final class SmoothUsers extends JavaPlugin {
                 new UserModule(),
                 new SerializerModule()
         );
-        
+
         getServer().getServicesManager().register(
                 SmoothUsersAPI.class,
                 injector.getInstance(DefaultSmoothUsersAPI.class),
