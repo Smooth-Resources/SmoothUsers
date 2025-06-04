@@ -1,7 +1,7 @@
-package net.smoothplugins.smoothusers.module;
+package com.smoothresources.smoothusers.module;
 
 import com.google.inject.AbstractModule;
-import net.smoothplugins.smoothusers.SmoothUsers;
+import com.smoothresources.smoothusers.SmoothUsers;
 
 public class SmoothUsersModule extends AbstractModule {
 

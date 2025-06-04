@@ -1,8 +1,8 @@
-package net.smoothplugins.smoothusers.listener;
+package com.smoothresources.smoothusers.listener;
 
 import com.google.inject.Inject;
-import net.smoothplugins.smoothusers.SmoothUsers;
-import net.smoothplugins.smoothusersapi.user.UserService;
+import com.smoothresources.smoothusers.SmoothUsers;
+import com.smoothresources.smoothusersapi.user.UserService;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

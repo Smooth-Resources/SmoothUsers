@@ -1,8 +1,8 @@
-package net.smoothplugins.smoothusers.api;
+package com.smoothresources.smoothusers.api;
 
 import com.google.inject.Inject;
-import net.smoothplugins.smoothusersapi.SmoothUsersAPI;
-import net.smoothplugins.smoothusersapi.user.UserService;
+import com.smoothresources.smoothusersapi.SmoothUsersAPI;
+import com.smoothresources.smoothusersapi.user.UserService;
 
 public class DefaultSmoothUsersAPI implements SmoothUsersAPI {
 

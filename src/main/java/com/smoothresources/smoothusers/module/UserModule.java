@@ -1,8 +1,8 @@
-package net.smoothplugins.smoothusers.module;
+package com.smoothresources.smoothusers.module;
 
 import com.google.inject.AbstractModule;
-import net.smoothplugins.smoothusers.user.DefaultUserService;
-import net.smoothplugins.smoothusersapi.user.UserService;
+import com.smoothresources.smoothusers.user.DefaultUserService;
+import com.smoothresources.smoothusersapi.user.UserService;
 
 public class UserModule extends AbstractModule {
 

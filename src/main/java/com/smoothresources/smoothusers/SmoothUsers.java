@@ -1,16 +1,17 @@
-package net.smoothplugins.smoothusers;
+package com.smoothresources.smoothusers;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import net.smoothplugins.smoothbase.common.connection.RedisConnection;
-import net.smoothplugins.smoothbase.common.database.nosql.MongoDBDatabase;
-import net.smoothplugins.smoothbase.common.database.nosql.RedisDatabase;
-import net.smoothplugins.smoothbase.common.file.YAMLFile;
-import net.smoothplugins.smoothbase.paper.file.PaperYAMLFile;
-import net.smoothplugins.smoothusers.api.DefaultSmoothUsersAPI;
-import net.smoothplugins.smoothusers.loader.MainLoader;
-import net.smoothplugins.smoothusers.module.*;
-import net.smoothplugins.smoothusersapi.SmoothUsersAPI;
+import com.smoothresources.smoothusers.module.*;
+import com.smoothresources.smoothbase.common.connection.RedisConnection;
+import com.smoothresources.smoothbase.common.database.nosql.MongoDBDatabase;
+import com.smoothresources.smoothbase.common.database.nosql.RedisDatabase;
+import com.smoothresources.smoothbase.common.file.YAMLFile;
+import com.smoothresources.smoothbase.paper.file.PaperYAMLFile;
+import com.smoothresources.smoothusers.api.DefaultSmoothUsersAPI;
+import com.smoothresources.smoothusers.loader.MainLoader;
+import com.smoothresources.smoothusers.module.*;
+import com.smoothresources.smoothusersapi.SmoothUsersAPI;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class SmoothUsers extends JavaPlugin {

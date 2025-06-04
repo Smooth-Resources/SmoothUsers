@@ -1,14 +1,14 @@
-package net.smoothplugins.smoothusers.user;
+package com.smoothresources.smoothusers.user;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import net.smoothplugins.smoothbase.common.database.nosql.MongoDBDatabase;
-import net.smoothplugins.smoothbase.common.database.nosql.RedisDatabase;
-import net.smoothplugins.smoothbase.common.file.YAMLFile;
-import net.smoothplugins.smoothbase.common.serializer.Serializer;
-import net.smoothplugins.smoothusersapi.service.Destination;
-import net.smoothplugins.smoothusersapi.user.User;
-import net.smoothplugins.smoothusersapi.user.UserService;
+import com.smoothresources.smoothbase.common.database.nosql.MongoDBDatabase;
+import com.smoothresources.smoothbase.common.database.nosql.RedisDatabase;
+import com.smoothresources.smoothbase.common.file.YAMLFile;
+import com.smoothresources.smoothbase.common.serializer.Serializer;
+import com.smoothresources.smoothusersapi.service.Destination;
+import com.smoothresources.smoothusersapi.user.User;
+import com.smoothresources.smoothusersapi.user.UserService;
 
 import java.time.LocalDateTime;
 import java.util.List;

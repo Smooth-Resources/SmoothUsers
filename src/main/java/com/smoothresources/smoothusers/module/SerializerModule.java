@@ -1,7 +1,7 @@
-package net.smoothplugins.smoothusers.module;
+package com.smoothresources.smoothusers.module;
 
 import com.google.inject.AbstractModule;
-import net.smoothplugins.smoothbase.common.serializer.Serializer;
+import com.smoothresources.smoothbase.common.serializer.Serializer;
 
 import java.util.List;
 

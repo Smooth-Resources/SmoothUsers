@@ -1,8 +1,8 @@
-package net.smoothplugins.smoothusers.module;
+package com.smoothresources.smoothusers.module;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
-import net.smoothplugins.smoothbase.common.file.YAMLFile;
+import com.smoothresources.smoothbase.common.file.YAMLFile;
 
 public class ConfigurationModule extends AbstractModule {
 

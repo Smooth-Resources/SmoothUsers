@@ -1,7 +1,7 @@
-package net.smoothplugins.smoothusers.loader;
+package com.smoothresources.smoothusers.loader;
 
 import com.google.inject.Inject;
-import net.smoothplugins.smoothusersapi.user.UserService;
+import com.smoothresources.smoothusersapi.user.UserService;
 import org.bukkit.Bukkit;
 
 public class MainLoader {

@@ -1,7 +1,7 @@
-package net.smoothplugins.smoothusers.module;
+package com.smoothresources.smoothusers.module;
 
 import com.google.inject.AbstractModule;
-import net.smoothplugins.smoothbase.common.connection.RedisConnection;
+import com.smoothresources.smoothbase.common.connection.RedisConnection;
 
 public class ConnectionModule extends AbstractModule {
 

@@ -1,9 +1,9 @@
-package net.smoothplugins.smoothusers.loader;
+package com.smoothresources.smoothusers.loader;
 
 import com.google.inject.Inject;
-import net.smoothplugins.smoothusers.SmoothUsers;
-import net.smoothplugins.smoothusers.listener.PlayerJoinListener;
-import net.smoothplugins.smoothusers.listener.PlayerQuitListener;
+import com.smoothresources.smoothusers.SmoothUsers;
+import com.smoothresources.smoothusers.listener.PlayerJoinListener;
+import com.smoothresources.smoothusers.listener.PlayerQuitListener;
 import org.bukkit.Bukkit;
 
 public class ListenerLoader {
